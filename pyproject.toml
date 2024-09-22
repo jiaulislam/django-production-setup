@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "django-production-setup"
+version = "1.0.0"
+description = ""
+authors = ["jiaulislam <jiaulislam.ict.bd@gmail.com>"]
+readme = "README.md"
+packages = [
+    {include= "core"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.1.1"
+djangorestframework = "^3.15.2"
+celery = "^5.4.0"
+django-celery-results = "^2.5.1"
+django-celery-beat = "^2.7.0"
+djangorestframework-simplejwt = "^5.3.1"
+django-environ = "^0.11.2"
+psycopg = "^3.2.2"
+django-cors-headers = "^4.4.0"
+gunicorn = "^23.0.0"
+redis = "^5.0.8"
+tenacity = "^9.0.0"
+drf-spectacular = "^0.27.2"
+
+
+[tool.poetry.group.dev.dependencies]
+rich = "^13.8.1"
+pytest-django = "^4.9.0"
+ruff = "^0.6.7"
+pre-commit = "^3.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "B", # flake8-bugbear
+    "N", # pep8-naming
+    "T20", # flake8-print
+]
+
+ignore = [
+    "E501", # line too long, handled by black
+    "B008", # do not perform function calls in argument defaults
+]
+
+extend-exclude = [".pyenv", ".vscode", "/usr/**", "migrations"]
