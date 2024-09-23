@@ -6,21 +6,29 @@ from django.utils.translation import gettext_lazy as _
 
 from core.mixins import AuditLogMixin
 
-from .manager import CustomUserManager
+from .manager import UserAccountManager
 
 
-class ExtendedUser(AbstractBaseUser, AuditLogMixin, PermissionsMixin):
+class UserAccount(AbstractBaseUser, AuditLogMixin, PermissionsMixin):
     email = models.EmailField(unique=True, null=False, blank=False)
     first_name = models.CharField(_("First Name"), max_length=88, blank=True)
     last_name = models.CharField(_("Last Name"), max_length=88, blank=True)
-    is_admin = models.BooleanField(_("Is Admin"), default=False)
+    is_admin = models.BooleanField(
+        _("Admin Status"),
+        default=False,
+        help_text="Designates that this user has all permissions but not as same superuser.",
+    )
     date_joined = models.DateTimeField(_("Date Joined"), default=timezone.now)
-    is_active = models.BooleanField(_("Active Status"), default=True)
+    is_active = models.BooleanField(
+        _("Active Status"),
+        default=True,
+        help_text="Determines if the user is active or not",
+    )
 
-    objects = CustomUserManager()
+    objects = UserAccountManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["password"]
 
     class Meta:
         verbose_name = "user"

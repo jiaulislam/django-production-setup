@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import BaseUserManager
 
 
-class CustomUserManager(BaseUserManager):
+class UserAccountManager(BaseUserManager):
 
     def _create_user(self, email: str, password: str = None, **extra_fields):
         """
@@ -21,13 +21,16 @@ class CustomUserManager(BaseUserManager):
 
     def create_user(self, email: str, password: str = None, **extra_fields):
         """
-        create and save a superuser with given email and password
+        create and save a user with given email and password
         """
         extra_fields.setdefault("is_superuser", False)
         extra_fields.setdefault("is_admin", False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
+        """
+        create and save a superuser with given email and password
+        """
         extra_fields.setdefault("is_admin", True)
         extra_fields.setdefault("is_superuser", True)
 
