@@ -6,6 +6,7 @@ from rest_framework import status as s
 from rest_framework import views as v
 from rest_framework import viewsets as vs
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from ..serializers.accounts_v1 import (
@@ -21,7 +22,7 @@ class AccountViewSetV1(vs.ModelViewSet):
     permission_class = [IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):
-        return get_user_model().objects.all()
+        return get_user_model().objects.filter(is_superuser=False)
 
 
 class LoginView(v.APIView):
@@ -48,6 +49,7 @@ class LoginView(v.APIView):
 
 
 class LogoutView(v.APIView):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     @remove_auth_cookies
@@ -75,6 +77,7 @@ class CookieTokenRefreshView(TokenRefreshView):
 
 
 class MeView(v.APIView):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
