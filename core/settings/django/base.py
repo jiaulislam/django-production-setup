@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "apps.accounts",
 ]
 
@@ -126,4 +127,5 @@ if not LOG_DIR.exists():
     LOG_DIR.mkdir(parents=True)
 
 
-from core.settings.apps.logging import *  # noqa: E402, F403
+from core.settings.plugins.logging import *  # noqa: E402, F403, I001
+from core.settings.plugins.drf import *  # noqa: E402, F403, I001
