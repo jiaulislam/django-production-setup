@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import exceptions as e
 from rest_framework import response as r
@@ -60,12 +61,12 @@ class CookieTokenRefreshView(TokenRefreshView):
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get("refresh"):
             response.set_cookie(
-                key=s.SIMPLE_JWT["AUTH_COOKIE_REFRESH"],
+                key=settings.SIMPLE_JWT["AUTH_COOKIE_REFRESH"],
                 value=response.data["refresh"],
-                expires=s.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"],
-                secure=s.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
-                httponly=s.SIMPLE_JWT["AUTH_COOKIE_HTTPONLY"],
-                samesite=s.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
+                expires=settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"],
+                secure=settings.SIMPLE_JWT["AUTH_COOKIE_SECURE"],
+                httponly=settings.SIMPLE_JWT["AUTH_COOKIE_HTTPONLY"],
+                samesite=settings.SIMPLE_JWT["AUTH_COOKIE_SAMESITE"],
             )
         del response.data["refresh"]
 
