@@ -22,7 +22,7 @@ class AccountViewSetV1(vs.ModelViewSet):
     permission_class = [IsAuthenticated, IsAdminUser]
 
     def get_queryset(self):
-        return get_user_model().objects.all()
+        return get_user_model().objects.filter(is_superuser=False)
 
 
 class LoginView(v.APIView):
