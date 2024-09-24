@@ -13,7 +13,7 @@ SECRET_KEY = env.str(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS", default=[])
 
 # Application definition
 
@@ -25,10 +25,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "corsheaders",
     "apps.accounts",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -129,3 +131,4 @@ if not LOG_DIR.exists():
 
 from core.settings.plugins.logging import *  # noqa: E402, F403, I001
 from core.settings.plugins.drf import *  # noqa: E402, F403, I001
+from core.settings.plugins.cors import *  # noqa: E402, F403, I001
