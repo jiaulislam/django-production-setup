@@ -13,7 +13,7 @@ SECRET_KEY = env.str(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS", default=[])
 
 # Application definition
 
@@ -24,10 +24,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
     "apps.accounts",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -126,4 +130,20 @@ if not LOG_DIR.exists():
     LOG_DIR.mkdir(parents=True)
 
 
-from core.settings.apps.logging import *  # noqa: E402, F403
+# Django Session settings
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = "Lax"
+
+# Django Base CSRF settings
+CSRF_COOKIE_AGE = 31449600  # 1 year approx.
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_PATH = "/"
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SECURE = True
+
+
+from core.settings.plugins.logging import *  # noqa: E402, F403, I001
+from core.settings.plugins.cors import *  # noqa: E402, F403, I001
+from core.settings.plugins.drf import *  # noqa: E402, F403, I001
+from core.settings.plugins.jwt import *  # noqa: E402, F403, I001
