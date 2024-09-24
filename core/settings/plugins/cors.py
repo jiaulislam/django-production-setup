@@ -17,3 +17,5 @@ CORS_ALLOW_METHODS = (
 CORS_ALLOW_HEADERS = (*default_headers, "x-sha-256", "x-sha-512", "x-signature")
 
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
