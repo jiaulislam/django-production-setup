@@ -131,17 +131,18 @@ if not LOG_DIR.exists():
 
 # Django Session settings
 SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SAMESITE = "None"
 
 # Django Base CSRF settings
 CSRF_COOKIE_AGE = 31449600  # 1 year approx.
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_PATH = "/"
 CSRF_COOKIE_NAME = "csrftoken"
-CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 
 
 from core.settings.plugins.logging import *  # noqa: E402, F403, I001
-from core.settings.plugins.drf import *  # noqa: E402, F403, I001
 from core.settings.plugins.cors import *  # noqa: E402, F403, I001
+from core.settings.plugins.drf import *  # noqa: E402, F403, I001
+from core.settings.plugins.jwt import *  # noqa: E402, F403, I001
