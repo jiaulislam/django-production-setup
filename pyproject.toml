@@ -37,7 +37,17 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-select = [
+exclude = [".pyenv", ".vscode", "/usr/**", "migrations", ".venv"]
+target-version = "py310"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+exclude = ["*.pyi", "migrations/*.py"]
+
+[tool.ruff.lint]
+extend-select = [
     "E", # pycodestyle errors
     "W", # pycodestyle warnings
     "F", # pyflakes
@@ -49,8 +59,21 @@ select = [
 ]
 
 ignore = [
-    "E501", # line too long, handled by black
+    "E741", # ambiguous variable name (preference)
     "B008", # do not perform function calls in argument defaults
 ]
 
-extend-exclude = [".pyenv", ".vscode", "/usr/**", "migrations"]
+[tool.ruff.lint.isort]
+known-third-party = [
+    "django",
+    "djangorestframework",
+    "celery",
+    "django-celery-results",
+    "django-celery-beat",
+    "djangorestframework-simplejwt",
+    "django-environ",
+    "django-cors-headers",
+    "tenacity",
+    "drf-spectacular",
+    "django-filter",
+]
