@@ -13,6 +13,7 @@ from ..serializers.accounts_v1 import (
     AccountSerializerV1,
     CookieTokenRefreshSerializer,
     LoginSerializer,
+    RegisterAccountSerializer,
 )
 from ..services import auth_cookies, generate_user_token, remove_auth_cookies
 
@@ -23,6 +24,27 @@ class AccountViewSetV1(vs.ModelViewSet):
 
     def get_queryset(self):
         return get_user_model().objects.filter(is_superuser=False)
+
+
+class RegisterAccountView(v.APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request, format=None):
+        body = RegisterAccountSerializer(data=request.data)
+        body.is_valid(raise_exception=True)
+
+        user = body.save()
+
+        if user is None:
+            return r.Response(
+                {"status": "error", "msg": "create user failed !"},
+                status=s.HTTP_400_BAD_REQUEST,
+            )
+        return r.Response(
+            {"status": "success", "msg": "account created"},
+            status=s.HTTP_201_CREATED,
+        )
 
 
 class LoginView(v.APIView):

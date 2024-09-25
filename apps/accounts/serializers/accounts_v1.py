@@ -27,6 +27,37 @@ class AccountSerializerV1(s.ModelSerializer):
         ]
 
 
+class RegisterAccountSerializer(s.ModelSerializer):
+    first_name = s.CharField(max_length=88, allow_blank=True, default="")
+    last_name = s.CharField(max_length=88, allow_blank=True, default="")
+    password2 = s.CharField(style={"input_type": "password"})
+
+    class Meta:
+        model = get_user_model()
+        fields = ("email", "first_name", "last_name", "password", "password2")
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "password2": {"write_only": True},
+        }
+
+    def save(self):
+        user = get_user_model()(
+            email=self.validated_data["email"],
+            first_name=self.validated_data.get("first_name"),
+            last_name=self.validated_data.get("last_name"),
+        )
+
+        password = self.validated_data["password"]
+        password2 = self.validated_data["password2"]
+
+        if password != password2:
+            raise s.ValidationError({"password": "Passwords do not match!"})
+
+        user.set_password(password)
+        user.save()
+        return user
+
+
 class LoginSerializer(s.Serializer):
     email = s.EmailField()
     password = s.CharField(style={"input_type": "password"}, write_only=True)
