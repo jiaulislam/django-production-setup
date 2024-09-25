@@ -2,7 +2,7 @@ SPECTACULAR_SETTINGS = {
     "OAS_VERSION": "3.1.0",
     "TITLE": r"Django Production RestAPI",
     "DESCRIPTION": "Demonstration of a production grade RestAPI",
-    "VERSION": "1.0.0",
+    "VERSION": "",
     "SERVE_INCLUDE_SCHEMA": False,
     "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
     "SERVE_AUTHENTICATION": None,
