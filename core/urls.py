@@ -12,28 +12,49 @@ api_v2 = "api/v2/"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(api_v1, include(("apps.accounts.urls.urls_v1", "accounts"), namespace="v1")),
-    path(api_v2, include(("apps.accounts.urls.urls_v2", "accounts"), namespace="v2")),
 ]
 
-v1_schemas = [
+v1_routes = [
+    path(api_v1, include(("apps.accounts.urls.urls_v1", "accounts"), namespace="v1")),
     path(
         f"{api_v1}schema/",
         SpectacularAPIView.as_view(
             api_version="v1", renderer_classes=api_settings.DEFAULT_RENDERER_CLASSES
         ),
-        name="schema",
+        name="schema-v1",
     ),
     path(
-        f"{api_v1}schema/swagger-ui/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
+        f"{api_v1}docs/",
+        SpectacularSwaggerView.as_view(url_name="schema-v1"),
         name="swagger-ui",
     ),
     path(
-        f"{api_v1}schema/redoc/",
-        SpectacularRedocView.as_view(url_name="schema"),
+        f"{api_v1}redoc/",
+        SpectacularRedocView.as_view(url_name="schema-v1"),
         name="redoc",
     ),
 ]
 
-urlpatterns.extend(v1_schemas)
+v2_routes = [
+    path(api_v2, include(("apps.accounts.urls.urls_v2", "accounts"), namespace="v2")),
+    path(
+        f"{api_v2}schema/",
+        SpectacularAPIView.as_view(
+            api_version="v2", renderer_classes=api_settings.DEFAULT_RENDERER_CLASSES
+        ),
+        name="schema-v2",
+    ),
+    path(
+        f"{api_v2}docs/",
+        SpectacularSwaggerView.as_view(url_name="schema-v2"),
+        name="swagger-v2",
+    ),
+    path(
+        f"{api_v2}redoc/",
+        SpectacularRedocView.as_view(url_name="schema-v2"),
+        name="redoc",
+    ),
+]
+
+urlpatterns.extend(v1_routes)
+urlpatterns.extend(v2_routes)
