@@ -56,5 +56,8 @@ v2_routes = [
     ),
 ]
 
-urlpatterns.extend(v1_routes)
-urlpatterns.extend(v2_routes)
+
+versioned_routes = [v1_routes, v2_routes]
+
+for routes in versioned_routes:
+    urlpatterns.extend(routes)
