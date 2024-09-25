@@ -3,6 +3,15 @@ from rest_framework import serializers as s
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
+from ..models import UserProfile
+
+
+class AccountProfileSerializer(s.ModelSerializer):
+
+    class Meta:
+        model = UserProfile
+        exclude = ("user",)
+
 
 class AccountSerializerV1(s.ModelSerializer):
     password = s.CharField(write_only=True)
@@ -15,7 +24,7 @@ class AccountSerializerV1(s.ModelSerializer):
         many=True,
     )
     user_permissions = s.PrimaryKeyRelatedField(read_only=True, many=True)
-
+    profile = AccountProfileSerializer(read_only=True)
     class Meta:
         model = get_user_model()
         exclude = [
