@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "drf_spectacular",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
@@ -147,3 +148,4 @@ from core.settings.plugins.logging import *  # noqa: E402, F403, I001
 from core.settings.plugins.cors import *  # noqa: E402, F403, I001
 from core.settings.plugins.drf import *  # noqa: E402, F403, I001
 from core.settings.plugins.jwt import *  # noqa: E402, F403, I001
+from core.settings.plugins.drf_spectacular import *  # noqa: E402, F403, I001

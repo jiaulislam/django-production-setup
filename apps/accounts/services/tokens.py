@@ -11,7 +11,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 def generate_user_token(user: AbstractBaseUser):
     refresh = RefreshToken.for_user(user)
 
-    return {"refresh_token": str(refresh), "access_token": str(refresh.access_token)}
+    return {
+        "refresh_token": str(refresh),
+        "access_token": str(refresh.access_token),
+        "iat": refresh.get("iat"),
+        "exp": refresh.get("exp"),
+    }
 
 
 def auth_cookies(view_func):

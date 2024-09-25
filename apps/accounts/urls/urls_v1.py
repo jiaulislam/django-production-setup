@@ -7,6 +7,7 @@ from ..views.views_v1 import (
     LoginView,
     LogoutView,
     MeView,
+    RegisterAccountView,
 )
 
 router = DefaultRouter()
@@ -17,6 +18,7 @@ urlpatterns = router.urls
 
 urlpatterns.extend(
     [
+        path("register/", RegisterAccountView.as_view(), name="auth-register"),
         path("login/", LoginView.as_view(), name="auth-login"),
         path("logout/", LogoutView.as_view(), name="auth-logout"),
         path("me/", MeView.as_view(), name="auth-me"),
