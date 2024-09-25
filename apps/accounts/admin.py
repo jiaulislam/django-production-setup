@@ -32,7 +32,18 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (_("Personal info"), {"fields": ("first_name", "last_name")}),
-        (_("Permissions"), {"fields": ("is_active", "is_admin", "is_superuser", "groups", "user_permissions")}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_admin",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
@@ -44,9 +55,13 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
-    ordering = ('date_joined',)
+    ordering = ("date_joined",)
     list_filter = ("is_admin", "is_superuser")
-    filter_horizontal = ('groups', 'user_permissions',)
+    filter_horizontal = (
+        "groups",
+        "user_permissions",
+    )
+
     def save_model(
         self, request: HttpRequest, obj: UserAccount, form: ModelForm, change: bool
     ) -> None:
