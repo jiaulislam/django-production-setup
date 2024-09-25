@@ -7,7 +7,6 @@ from ..models import UserProfile
 
 
 class AccountProfileSerializer(s.ModelSerializer):
-
     class Meta:
         model = UserProfile
         exclude = ("user",)
@@ -25,6 +24,7 @@ class AccountSerializerV1(s.ModelSerializer):
     )
     user_permissions = s.PrimaryKeyRelatedField(read_only=True, many=True)
     profile = AccountProfileSerializer(read_only=True)
+
     class Meta:
         model = get_user_model()
         exclude = [
@@ -39,14 +39,13 @@ class AccountSerializerV1(s.ModelSerializer):
 class RegisterAccountSerializer(s.ModelSerializer):
     first_name = s.CharField(max_length=88, allow_blank=True, default="")
     last_name = s.CharField(max_length=88, allow_blank=True, default="")
-    password2 = s.CharField(style={"input_type": "password"})
+    password2 = s.CharField(style={"input_type": "password"}, write_only=True)
 
     class Meta:
         model = get_user_model()
         fields = ("email", "first_name", "last_name", "password", "password2")
         extra_kwargs = {
             "password": {"write_only": True},
-            "password2": {"write_only": True},
         }
 
     def save(self):

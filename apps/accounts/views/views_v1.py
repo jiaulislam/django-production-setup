@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, get_user_model
 from rest_framework import exceptions as e
 from rest_framework import response as r
 from rest_framework import status as s
-from rest_framework import views as v
 from rest_framework import viewsets as vs
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -26,9 +26,10 @@ class AccountViewSetV1(vs.ModelViewSet):
         return get_user_model().objects.filter(is_superuser=False)
 
 
-class RegisterAccountView(v.APIView):
+class RegisterAccountView(GenericAPIView):
     authentication_classes = []
     permission_classes = []
+    serializer_class = RegisterAccountSerializer
 
     def post(self, request, format=None):
         body = RegisterAccountSerializer(data=request.data)
@@ -47,9 +48,10 @@ class RegisterAccountView(v.APIView):
         )
 
 
-class LoginView(v.APIView):
+class LoginView(GenericAPIView):
     authentication_classes = []
     permission_classes = []
+    serializer_class = LoginSerializer
 
     @auth_cookies
     def post(self, request, format=None):
@@ -70,7 +72,7 @@ class LoginView(v.APIView):
         return r.Response(tokens)
 
 
-class LogoutView(v.APIView):
+class LogoutView(GenericAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -98,9 +100,10 @@ class CookieTokenRefreshView(TokenRefreshView):
         return super().finalize_response(request, response, *args, **kwargs)
 
 
-class MeView(v.APIView):
+class MeView(GenericAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = AccountSerializerV1
 
     def get(self, request, *args, **kwargs):
         return r.Response(AccountSerializerV1(instance=request.user).data)
